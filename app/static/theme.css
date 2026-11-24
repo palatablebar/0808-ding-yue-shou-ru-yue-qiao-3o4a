@@ -53,3 +53,20 @@ body.columns {margin:0;background:var(--bg);color:var(--ink);font:var(--size)/1.
 .bridge-tower .mark-piece {height:max(25px,var(--part));padding:2px;background:var(--button);color:var(--ink);border-top:4px solid var(--accent)}
 .bridge-tower:is(.bridge-2,.bridge-3) .mark-piece {border-top-color:var(--alert)}
 .bridge-total {margin-top:10px;font-weight:800;font-size:1.25rem}
+
+.columns .supplement {margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.columns .supplement h3 {width:100%;margin:0 0 4px;font-size:15px}
+.columns .supplement input {position:absolute;width:1px;height:1px;opacity:0}
+.columns .supplement:has(input:focus-visible) .file {outline:2px solid var(--accent);outline-offset:3px}
+.columns #supplement-name {overflow-wrap:anywhere}
+.columns .lineage {margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.columns .lineage h3 {font-size:15px;margin:8px 0 6px}
+.columns #lineage-versions {margin:0;padding-left:18px;display:grid;gap:6px}
+.columns #lineage-versions li {display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.columns #lineage-versions span {color:var(--sub);font-size:.86em}
+.columns #supplement-attempts {list-style:none;padding:0;margin:0;display:grid;gap:6px;font-size:.9em}
+.columns #supplement-attempts p {margin:2px 0 0;color:var(--alert);font-family:var(--font-num);overflow-wrap:anywhere}
+.columns .badge[data-result="FROZEN"] {color:var(--sub)}
+.columns .badge[data-result="RECALCULATED"] {color:var(--accent)}
+.columns .badge[data-result="ORIGINAL"] {color:var(--sub)}
+.columns .lineage-head {color:var(--sub);font-size:.88em;margin:0 0 6px;overflow-wrap:anywhere}

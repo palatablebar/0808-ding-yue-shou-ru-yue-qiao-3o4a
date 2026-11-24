@@ -17,6 +17,10 @@ LABELS = {
     "UNRESOLVED_ISSUES": "存在待处理差异",
     "SAMPLE_UNKNOWN": "样例不存在",
     "STAGE_UNKNOWN": "处理阶段不存在",
+    "UNBASED_BACKFILL": "补录缺少前序批次依据，已拒绝并保留原签发结论",
+    "VERSION_CONFLICT": "同一记录出现无法判定先后的矛盾补录，新版本不得签发",
+    "LINEAGE_ADVANCED": "来源谱系已被其他补录推进，请基于最新版本重试",
+    "RECORD_NOT_FOUND": "该记录键不在当前批次谱系中",
 }
 
 
@@ -24,11 +28,19 @@ def response(error):
     code = error.code
     status = (
         404
-        if code in {"RUN_NOT_FOUND", "SAMPLE_UNKNOWN", "STAGE_UNKNOWN"}
+        if code in {"RUN_NOT_FOUND", "SAMPLE_UNKNOWN", "STAGE_UNKNOWN", "RECORD_NOT_FOUND"}
         else (
             409
-            if code in {"STALE_REVIEW", "RUN_FINALIZED", "UNRESOLVED_ISSUES"}
+            if code
+            in {
+                "STALE_REVIEW",
+                "RUN_FINALIZED",
+                "UNRESOLVED_ISSUES",
+                "UNBASED_BACKFILL",
+                "VERSION_CONFLICT",
+                "LINEAGE_ADVANCED",
+            }
             else 413 if code == "FILE_TOO_LARGE" else 422
         )
     )
-    return jsonify(code=code, message=LABELS.get(code, code)), status
+    return jsonify(code=code, message=LABELS.get(code, code), **error.details), status

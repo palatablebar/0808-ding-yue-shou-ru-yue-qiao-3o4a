@@ -40,6 +40,21 @@
     <div class="review-actions"><button name="decision" value="HELD">暂缓</button><button class="action" name="decision" value="APPROVED">签发</button></div>
     <a id="evidence">下载复核证据</a>
   </form>
+  <form id="supplement" class="supplement" hidden>
+    <h3>迟到来源补录</h3>
+    <p id="lineage-head" class="lineage-head"></p>
+    <label for="supplement-file" class="file">选择补录 CSV</label>
+    <input id="supplement-file" type="file" accept=".csv,text/csv">
+    <span id="supplement-name" aria-live="polite"></span>
+    <button type="submit" class="action">挂接补录并重算受影响分组</button>
+    <a href="/examples/late">下载补录样例 CSV</a>
+  </form>
+  <section id="lineage-panel" class="lineage" hidden>
+    <h3>来源版本链</h3>
+    <ol id="lineage-versions"></ol>
+    <h3>补录尝试</h3>
+    <ul id="supplement-attempts"></ul>
+  </section>
 </aside>
 {% endmacro %}
 {% macro status() %}

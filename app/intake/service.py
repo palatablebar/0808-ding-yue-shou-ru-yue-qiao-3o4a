@@ -41,3 +41,23 @@ def inspect(data):
         isolation=rejects,
         rows=accepted,
     )
+
+
+def accepted_rows_with_lines(data):
+    """与 inspect 相同的采信结果，额外给出每条采信记录的源行号。
+
+    行号放在独立映射中，不写进业务 row，避免破坏重复回放的等值判断。
+    """
+    line_of = {}
+    candidates = []
+    for line, values in records(data):
+        if not any(v.strip() for v in values) or tuple(values) == HEADER:
+            continue
+        try:
+            parsed = record(values)
+        except DomainIssue:
+            continue
+        line_of[parsed["record"]] = line
+        candidates.append((line, parsed))
+    accepted, _ = partition(candidates)
+    return accepted, line_of

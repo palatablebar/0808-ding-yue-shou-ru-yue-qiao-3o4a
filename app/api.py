@@ -25,6 +25,38 @@ def runs():
     return jsonify(execute(store, read_input()))
 
 
+@api.post("/runs/<run_id>/supplements")
+def supplement(run_id):
+    """把迟到来源记录作为补录挂到指定批次的谱系上。"""
+    store = current_app.extensions["runs"]
+    outcome = store.supplement(run_id, read_input())
+    return jsonify(outcome)
+
+
+@api.get("/runs/<run_id>/lineage")
+def lineage(run_id):
+    store = current_app.extensions["runs"]
+    store.load(run_id)  # 未知批次返回 404
+    return jsonify(store.lineage(store.root_of(run_id)))
+
+
+@api.get("/runs/<run_id>/records/<record_key>/versions")
+def record_versions(run_id, record_key):
+    store = current_app.extensions["runs"]
+    store.load(run_id)
+    return jsonify(
+        record=record_key,
+        versions=store.record_versions(store.root_of(run_id), record_key),
+    )
+
+
+@api.get("/runs/<run_id>/attempts")
+def attempts(run_id):
+    store = current_app.extensions["runs"]
+    store.load(run_id)
+    return jsonify(items=store.attempts(store.root_of(run_id)))
+
+
 @api.route("/runs/<run_id>", methods=["GET", "PATCH"])
 def batch(run_id):
     store = current_app.extensions["runs"]
